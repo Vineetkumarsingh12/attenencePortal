@@ -1,76 +1,71 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useDispatch,useSelector } from "react-redux";
-import { createClass} from './operations/attendenceApi';
-
+import { useDispatch, useSelector } from "react-redux";
+import { createClass } from './operations/attendenceApi';
 
 const CreateClass = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user}=useSelector(state=>state.auth);
-  const { register, handleSubmit ,reset} = useForm();
-  
-let email=JSON.parse(user).email;
-console.log(email);
-  const shadowStyle = {
-    boxShadow: '9px 9px 9px #16ad28, -9px -9px 9px #1ee936',
-  };
+  const { user } = useSelector(state => state.auth);
+  const { register, handleSubmit, reset } = useForm();
+
+  const email = user.email;
+  console.log(email);
 
   const onSubmit = (data) => {
-data={...data,email:email};
-console.log(data); // Log the form data
-  dispatch(createClass(data,navigate));
-  reset();
+    data = { ...data, email: email };
+    console.log(data); // Log the form data
+    dispatch(createClass(data, navigate));
+    reset();
   };
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-48px)]">
-      <div className="bg-green-500 text-center  rounded-[19px] p-2" style={shadowStyle}>
-        <h1 className="text-white">Create Class</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex items-center justify-center h-[calc(100vh-48px)] bg-gray-900">
+      <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-center rounded-2xl p-10">
+        <h1 className="text-white text-3xl mb-6 font-bold">Create a New Class</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <p className="text-white">Enter class standard <span className="text-red-700">*</span></p>
+            <label className="block text-white text-lg mb-2">Class Standard <span className="text-red-700">*</span></label>
             <input
               type="text"
               name="standard"
-              placeholder="  12"
-              className="rounded-md"
+              placeholder="Enter class standard"
+              className="rounded-lg w-full p-3 text-gray-900"
               {...register("standard", { required: true })}
             />
           </div>
-
-          <div >
-            <p className="text-white">Enter class timing <span className="text-red-700">*</span></p>
-            <div className="flex gap-1 flex-col">
+          <div>
+            <label className="block text-white text-lg mb-2">Class Timing <span className="text-red-700">*</span></label>
+            <div className="flex gap-4">
               <input
                 type="text"
                 name="startTime"
-                placeholder="  start(10)"
-                className="rounded-md"
+                placeholder="Start time (e.g., 10:00)"
+                className="rounded-lg w-1/2 p-3 text-gray-900"
                 {...register("startTime", { required: true })}
               />
               <input
                 type="text"
-                placeholder="   end(11)"
                 name="endTime"
-                className="rounded-md"
+                placeholder="End time (e.g., 11:00)"
+                className="rounded-lg w-1/2 p-3 text-gray-900"
                 {...register("endTime", { required: true })}
               />
-             
             </div>
-            <p className="text-white">Enter subject <span className="text-red-700">*</span></p>
+          </div>
+          <div>
+            <label className="block text-white text-lg mb-2">Subject <span className="text-red-700">*</span></label>
             <input
               type="text"
               name="subject"
-              placeholder="  Maths"
-              className="rounded-md"
+              placeholder="Enter subject"
+              className="rounded-lg w-full p-3 text-gray-900"
               {...register("subject", { required: true })}
             />
           </div>
-
-          <button className="bg-white text-green-500 rounded-md p-1 border border-black mt-1" type="submit">
-            Create
+          <button className="bg-gradient-to-r from-white to-gray-200 text-blue-500 rounded-lg p-3 w-full mt-4 hover:from-gray-100 hover:to-gray-300 transition-colors font-semibold" type="submit">
+            Create Class
           </button>
         </form>
       </div>

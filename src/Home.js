@@ -8,54 +8,43 @@ import { addStudent } from "./operations/attendenceApi";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const user= useSelector(state=>state.auth.user);
-  const email=user.email;
-  
-  ;
-  // console.log("emailssss",email);
-  
-  
-  const [classes, setClasses] = useState([]);
+  const user = useSelector(state => state.auth.user);
+  const email = user.email;
 
+  const [classes, setClasses] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data={email:email};
-        console.log(data);
+        const data = { email: email };
         const response = await dispatch(showAllClasses(data));
         setClasses(response.data.classes);
-        console.log("res",response.data.classes);
       } catch (error) {
-        toast.error('Can not load  classes');
+        toast.error('Can not load classes');
       }
     };
 
     fetchData();
-  }, []);
+  }, [dispatch, email]);
 
   return (
-    <div className="h-[calc(100vh-48px)] bg-black">
-      <div className="flex flex-row flex-wrap">
-        {classes.map((element, key) => (
-          <Link to={`/Menu/${element._id}`} key={key}>
-          <div className="m-2 p-2 rounded w-[10rem] bg-green-400" >
-            <div className="text-white">
-              <p>{`Class: ${element.standard}`}</p>
-              <p>{`Time: ${element.startTime} to ${element.endTime}`}</p>
-              <p>{`Subject: ${element.subject}`}</p>
-            </div>
-          </div>
-          </Link>
-        ))}
+    <div className="h-[calc(100vh-48px)] bg-gray-900 text-white">
+      <div className="container mx-auto py-6 px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {classes.map((element, key) => (
+            <Link to={`/Menu/${element._id}`} key={key} className="bg-green-500 hover:bg-green-600 transition-colors rounded-lg shadow-lg p-4">
+              <div>
+                <p className="text-lg font-semibold">{`Class: ${element.standard}`}</p>
+                <p>{`Time: ${element.startTime} to ${element.endTime}`}</p>
+                <p>{`Subject: ${element.subject}`}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-      {/* plus icon */}
       <Link to="/addclass">
-        <div className="fixed bottom-2 rounded-full bg-green-300 p-3 right-3 animate-bounce">
-          <div className="text-zinc-50">
-            {/* icon */}
-            <AiFillPlusCircle className="text-[4rem]" />
-          </div>
+        <div className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 transition-colors rounded-full p-4 shadow-lg">
+          <AiFillPlusCircle className="text-6xl text-white" />
         </div>
       </Link>
     </div>
