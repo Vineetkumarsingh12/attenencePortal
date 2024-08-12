@@ -197,7 +197,7 @@ console.log("user created");
         const updateUserDetails=await teacher.findOneAndUpdate({email},{token:token,expriesOfUrl:Date.now()+3600000},{new:true});
         console.log(updateUserDetails);
 
-        const url=`http://localhost:3000/resetPassword/${token}`;
+        const url=`https://attenence-portal.vercel.app/resetPassword/${token}`;
         console.log(url);
 
         //send mail
